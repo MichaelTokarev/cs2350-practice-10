@@ -39,9 +39,9 @@ function getCards() {
 function addNewCards(event) {
     event.preventDefault()
 
-    let t = document.querySelector('#place').value
-    let d = document.querySelector('#description').value
-    let p = document.querySelector('#poster').value
+    let t = document.querySelector("#place").value
+    let d = document.querySelector("#description").value
+    let p = document.querySelector("#poster").value
 
     let cards = getCards()
 
@@ -82,8 +82,21 @@ function displayCards(){
     }
 
     document.querySelector('#cards').innerHTML = cards_html
+
+    document.querySelectorAll('.to-delete').forEach(function(btn){
+        btn.onclick = function(event){
+            if(confirm("Are you sure you want to delete this card?")){
+                cards.splice(event.target.closest('.col').dataset.ndx, 1)
+                localStorage.setItem('cards', JSON.stringify(cards))
+                displayCards()
+            }
+        }
+    })
+
+    hideForm()
 }  
 
-document.querySelector("#myForm").onsubmit = addNewCard
+document.querySelector("#myForm").onsubmit = addNewCards
 document.querySelector("#new_card").onclick = hideCards
+document.querySelector(".to-cancel").onclick = hideForm
 displayCards()
